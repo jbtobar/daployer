@@ -1,6 +1,6 @@
 {
   "name": "daployer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Spins up a GUI to deploy and interact with your smart contracts",
   "main": "server.js",
   "directories": {
