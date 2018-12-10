@@ -13,6 +13,8 @@ Check out the [documentation](https://jbtobar.gitbook.io/api/)
 
 Clone the repo from here or npm, start the service with `npm start` and have your own service to deploy and interact with contracts on the ethereum blockchain!
 
+Note: if you are in Russia, the live version might not work as DigitalOcean servers are banned, and you might accessing the documentation. Let me know if I can be of any help!
+
 ---
 
 Root URL:
