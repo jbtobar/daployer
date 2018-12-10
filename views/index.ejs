@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+    <title><%= title %></title>
+  </head>
+  <body>
+    welcome <%= user%>;
+    <hr>
+    <!-- <ul>
+      <% goods.forEach(function(user){ %>
+        <%= user.name %>
+        :
+        <%= user.type %>
+        <br>
+      <% })%>
+    </ul> -->
+
+    <div id="mainDiv">
+
+
+      <form method="post" action="/api/test/<%-contractName%>" target='postResult'>
+        <% goods.forEach(function(user){ %>
+          <p><%= user.name %></p>
+          <p><%= user.type %></p>
+          <% if (user.type.includes('int')){ %>
+            <input type="number" name="<%= user.name %>" id="<%= user.name %>"></input>
+          <% } else { %>
+            <% if (user.type == 'bool') { %>
+              <!-- <label for="<%= user.name %>"><%= user.name %><label> -->
+              <input type="radio" name="<%= user.name %>" value="true" checked="checked">True</input>
+              <input type="radio" name="<%= user.name %>" value="false">False</input>
+              <!-- <input type="checkbox" name="<%= user.name %>" id="<%= user.name %>"></input> -->
+            <% } else { %>
+              <input type="<%= user.type %>" name="<%= user.name %>" id="<%= user.name %>"></input>
+            <% } %>
+          <% } %>
+          <hr>
+        <% })%>
+        <button type="submit">Sopita (to deploy via  server)</button>
+        <button type="button" onclick="signHere(this)">Sopita By Myself (to deploy via your browser's MetaMask)</button>
+      </form>
+    </div>
+  </body>
+  <script>
+
+  function signHere(butt) {
+    parent.curt = butt
+    var forma = $(butt.parentElement).serializeArray()
+    args = []
+    forma.forEach(function(d) {
+      args.push(d.value)
+    })
+    parent.parg = args
+    console.log('signHere')
+    sc = web3.eth.contract(contractABI)
+    // console.log(sakka)
+    sc.new(...args, {
+      from:web3.eth.coinbase,
+      data:contractBuild.bytecode
+    }, function(err,b) {
+      if (err) {
+        console.log(err)
+        // var beauty = JSON.stringify(deployedInstance,null,3)
+        // iframeBody  = $("#postRight").contents().find("body")
+        parent.iframeBody.append('<div><hr><pre>'+err+'</pre><hr><div>')
+      } else {
+        console.log(b)
+        window.sauna = b
+        // (parent.verbosity) ? abu = sauna.transactionHash : abu = 'Verbosity is Off, turn it on to print ABI'
+        window.deployedInstance = {
+          address: sauna.address,
+          transactionHash: sauna.transactionHash,
+          abi: sauna.abi
+        }
+        if ( parent.verbosity == false ) { deployedInstance.abi = 'Verbosity is turned off, turn it on to print the ABI' }
+        var beauty = JSON.stringify(deployedInstance,null,3)
+        iframeBody  = $("#postRight").contents().find("body")
+        parent.iframeBody.append('<div><hr><pre>'+beauty+'</pre><hr><div>')
+
+      }
+      // iframeBody.append('<div><hr><pre>'+beauty+'</pre><hr><div>')
+    })
+  }
+
+
+
+  var goods =<%-JSON.stringify(goods)%>
+  var contractName ='<%-contractName%>'
+  var contractBuild =<%-JSON.stringify(contractBuild)%>
+  var contractABI = contractBuild.abi
+
+  parent.contractBuild = contractBuild
+  parent.contractABI = contractBuild.abi
+
+
+
+window.addEventListener('load', function() {
+
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    window.web3 = new Web3(web3.currentProvider);
+  } else {
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  }
+})
+
+  </script>
+</html>

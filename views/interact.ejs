@@ -1,0 +1,185 @@
+<html>
+  <head>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+    <title><%= title %></title>
+  </head>
+  <body>
+    welcome <%= user%>;
+    <hr>
+    <hr>
+    <!-- <ul>
+      <% goods.forEach(function(user){ %>
+        <%= user.name %>
+        :
+        <%= user.type %>
+        <br>
+      <% })%>
+    </ul> -->
+    <div id="mainDiv">
+      <% goods.forEach(function(d) { %>
+      <form method="post" action="" onsubmit="return false">
+      <input name="contractAddress" placeholder="contract address" required=true></input>
+      <!-- <button onclick="makeContract(this)">Make Contract</button> -->
+      <h4>Function Name:</h4>
+      <p><%= d.name %></p>
+      <input name="methodName" value="<%= d.name %>" hidden=true></input>
+      <% if (d.inputs.length > 0) { %>
+        <h4>Inputs</h4>
+      <% } %>
+      <% d.inputs.forEach(function(i) { %>
+        <p>"<%= i.type %>"</p>
+        <label for="<%= i.name %>">"<%= i.name %>"</label>
+        <% if (i.type.includes('int')){ %>
+          <input type="number" name="<%= i.name %>" id="<%= i.name %>"></input>
+        <% } else { %>
+          <% if (i.type == 'bool') { %>
+            <input type="radio" name="<%= user.name %>" value="true" checked="checked">True</input>
+            <input type="radio" name="<%= user.name %>" value="false">False</input>
+          <% } else { %>
+            <input type="<%= i.type %>" name="<%= i.name %>" id="<%= i.name %>"></input>
+          <% } %>
+        <% } %>
+      <% }) %>
+      <% if (d.constant == true) { %>
+        <button onclick="sendTx(this)">CALL</button>
+      <% } else { %>
+        <button onclick="sendTx(this)">SEND</button>
+      <% } %>
+      <hr>
+      <hr>
+      </form>
+    <% }) %>
+
+    </div>
+  </body>
+  <script>
+  function sendTx(butt) {
+    console.log(butt)
+    parent.butt = butt
+    var forma = $(butt.parentElement).serializeArray()
+    // forma.find(function(d){if (d.name == 'methodName') {methodName = d.value}})
+    // forma.find(function(d){if (d.name == 'contractAddress') {contractAddress = d.value}})
+    args = []
+    forma.forEach(function(d) {
+      if (d.name == 'methodName') {methodName = d.value}
+      else {
+        if (d.name == 'contractAddress') {contractAddress = d.value}
+        else {
+          args.push(d.value)
+        }
+      }
+    })
+    parent.parg = args
+    // var address = forma[0].value
+    // console.log(Object.values(mak))
+    // parent.mak = mak
+    var ctc = web3.eth.contract(contractABI)
+    var contractAt = ctc.at(contractAddress)
+    parent.contractAt = contractAt
+    if (butt.innerText  == 'CALL') {
+      contractAt[methodName].call(function(d,m){
+        console.log('called the function');
+        console.log(m)
+        parent.iframeBody.append('<div><hr><pre>'+m+'</pre><hr><div>')
+      })
+    }
+    if (butt.innerText  == 'SEND') {
+      contractAt[methodName](args,function(d,m){
+        console.log('SENT the function');
+        console.log(m)
+        parent.iframeBody.append('<div><hr><pre>'+m+'</pre><hr><div>')
+      })
+    }
+  }
+// parent.iframeBody.append('<div><hr><pre>'+err+'</pre><hr><div>')
+
+
+  var goods =<%-JSON.stringify(goods)%>
+  var contractName ='<%-contractName%>'
+  var contractBuild =<%-JSON.stringify(contractBuild)%>
+  var contractABI = contractBuild.abi
+  // goods.forEach(function(d) {
+  //   // d3.select('#mainDiv').append('button').attr('onclick','makeContract(this)').text('make contract')
+  //   form = d3.select('#mainDiv')
+  //             .append('form')
+  //             .attr('method','post')
+  //             .attr('action','')
+  //             .attr('onsubmit','return false')
+  //             // .attr('action','/api/test/'+contractName+'/'+d.name)
+  //   form.append('input').attr('name','contractAddress').attr('placeholder','contract address').attr('required',true)
+  //   form.append('button').attr('onclick','makeContract(this)').text('make contract')
+  //   form.append('h4').text('Function Name:')
+  //   form.append('p').text(d.name)
+  //   // form.append('p').text(d.type)
+  //   // form.append('hr')
+  //   if (d.inputs.length > 0) {form.append('h4').text('Inputs')}
+  //   d.inputs.forEach(function(i) {
+  //     // form.append('p').text(i.name)
+  //     form.append('p').text(i.type)
+  //     // form.append('input').attr('name',i.name).attr('value',i.type)
+  //     form.append('label').attr('for',i.name).text(i.name)
+  //     if (i.type.includes('int')){
+  //       form.append('input').attr('type','number').attr('name',i.name).attr('id',i.name)
+  //     } else {
+  //       if (i.type == 'bool') {
+  //         form.append('input').attr('type','checkbox').attr('name',i.name).attr('id',i.name)
+  //       } else {
+  //         form.append('input').attr('type',i.type).attr('name',i.name).attr('id',i.name)
+  //       }
+  //     }
+  //   })
+  //   if (d.constant == true) {
+  //     // form.append('button').attr('type','submit').text('CALL')
+  //     form.append('button').attr('onclick','sendTx(this)').text('CALL')
+  //   } else {
+  //     // form.append('button').attr('type','submit').text('SEND')
+  //     form.append('button').attr('onclick','sendTx(this)').text('SEND')
+  //   }
+  //   form.append('hr')
+  //   form.append('hr')
+  // })
+  // form = d3.select('#mainDiv')
+  //           .append('form')
+  //           .attr('method','post')
+  //           .attr('action','/api/test/'+contractName)
+  //
+  // goods.forEach(function(d){
+  //   form.append('p').text(d.name)
+  //   form.append('p').text(d.type)
+  //   console.log(d.name)
+    // if (d.type.includes('int')){
+    //   form.append('input').attr('type','number').attr('name',d.name).attr('id',d.name)
+    // } else {
+    //   if (d.type == 'bool') {
+    //     form.append('input').attr('type','checkbox').attr('name',d.name).attr('id',d.name)
+    //   } else {
+    //     form.append('input').attr('type',d.type).attr('name',d.name).attr('id',d.name)
+    //   }
+    // }
+  //   form.append('hr')
+  // })
+  //
+  // form.append('button').attr('type','submit').text('sopita')
+
+window.addEventListener('load', function() {
+
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    window.web3 = new Web3(web3.currentProvider);
+  } else {
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  }
+})
+
+
+
+
+  </script>
+</html>

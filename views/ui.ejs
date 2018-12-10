@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+    <title><%= title %></title>
+  </head>
+  <body>
+    welcome <%= user%>;
+    <button onclick="clearConsole()">Clear Console</button>
+    <button onclick="toggleVerbosity(true)">Verbosity On</button>
+    <button onclick="toggleVerbosity(false)">Verbosity Off</button>
+    <hr>
+    DEPLOY
+      <% goods.forEach(function(user){ %>
+        <a href="ui/<%= user %>" target="postLeft"><%= user %></a>
+      <% })%>
+      <hr>
+      INTERACT
+      <% goods.forEach(function(user){ %>
+        <a href="ui/interact/<%= user %>" target="postLeft"><%= user %></a>
+      <% })%>
+    <div id="mainDiv">
+      <table>
+        <tr>
+          <td>
+            <iframe name="postLeft" id="postLeft" style="height:500;width:600"></iframe>
+          </td>
+          <td>
+            <iframe name="postRight" id="postRight" style="height:500;width:600"></iframe>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+  <script>
+  var goods =<%-JSON.stringify(goods)%>
+  window.verbosity = false;
+  window.iframeBody  = $("#postRight").contents().find("body")
+
+  function clearConsole() {
+    iframeBody.html('')
+  }
+  function toggleVerbosity(arg) {
+    verbosity = arg
+  }
+
+  // window.addEventListener('load', function() {
+  //
+  //   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  //   if (typeof web3 !== 'undefined') {
+  //     // Use Mist/MetaMask's provider
+  //     window.web3 = new Web3(web3.currentProvider);
+  //   } else {
+  //     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+  //     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  //   }
+  // })
+
+  </script>
+</html>

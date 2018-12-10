@@ -1,0 +1,41 @@
+{
+  "name": "daployer",
+  "version": "0.0.2",
+  "description": "Spins up a GUI to deploy and interact with your smart contracts",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "dev": "nodemon server.js",
+    "live": "nodemon server.js live"
+  },
+  "author": "JBT jbtobar.io@gmail.com (http://juanbernardotobar.me)",
+  "license": "MIT",
+  "keywords": [
+      "truffle",
+      "ethereum",
+      "blockchain",
+      "smart contract",
+      "GUI",
+      "testing",
+      "debugging"
+  ],
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/jbtobar/daployer"
+  },
+  "dependencies": {
+    "chai-http": "^4.0.0",
+    "dotenv": "^6.0.0",
+    "ejs": "^2.6.1",
+    "request-promise": "^4.2.2",
+    "web3": "^1.0.0-beta.34"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3"
+  }
+}
