@@ -4,7 +4,8 @@ const bodyParser     = require('body-parser');
 if (process.argv[2] == 'live') {
     rpcUrl = 'http://0.0.0.0/rpc/'
 } else {
-    rpcUrl = 'http://165.227.96.86/rpc/'
+    // rpcUrl = 'http://165.227.96.86/rpc/'
+    rpcUrl = 'http://rpc.maia.live'
 }
 if (process.argv[2] == 'localhost') {
     rpcUrl = 'http://localhost:8545'

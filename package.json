@@ -14,17 +14,17 @@
   "author": "JBT jbtobar.io@gmail.com (http://juanbernardotobar.me)",
   "license": "MIT",
   "keywords": [
-      "truffle",
-      "ethereum",
-      "blockchain",
-      "smart contract",
-      "GUI",
-      "testing",
-      "debugging"
+    "truffle",
+    "ethereum",
+    "blockchain",
+    "smart contract",
+    "GUI",
+    "testing",
+    "debugging"
   ],
   "repository": {
-      "type": "git",
-      "url": "https://github.com/jbtobar/daployer"
+    "type": "git",
+    "url": "https://github.com/jbtobar/daployer"
   },
   "dependencies": {
     "chai-http": "^4.0.0",
