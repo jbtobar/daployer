@@ -35,8 +35,7 @@
       "inputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
+      "type": "constructor"
     },
     {
       "constant": false,
@@ -202,7 +201,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2019,
+                        "referencedDeclaration": 2036,
                         "src": "158:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -286,7 +285,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2019,
+                        "referencedDeclaration": 2036,
                         "src": "209:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -851,7 +850,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2019,
+                        "referencedDeclaration": 2036,
                         "src": "158:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -935,7 +934,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2019,
+                        "referencedDeclaration": 2036,
                         "src": "209:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1381,12 +1380,12 @@
     "115157": {
       "events": {},
       "links": {},
-      "address": "0x4BB7b4DeC17023079A01a1AED3750BA606e113f5",
-      "transactionHash": "0xb2594b789e2d291801b281a138bf4ba93ef648afe48147cba5779a88754b194b"
+      "address": "0xe84Dd4897b5bd6B35f0450b129A94Fe4f3217bD2",
+      "transactionHash": "0xe1d6373e8481ff0175806bee0529097b87f72eff60b0913dc8fb31f8b803beeb"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-01-18T12:44:36.358Z",
+  "updatedAt": "2019-01-18T13:06:41.766Z",
   "devdoc": {
     "methods": {}
   },

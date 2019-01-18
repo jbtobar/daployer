@@ -9,6 +9,8 @@ import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
 contract Nifty is ERC721Full, ERC721Mintable,Ownable {
 
+  uint public v01;
+
   struct Multihash {
     bytes32 digest;
     uint8 hashFunction;
@@ -30,7 +32,7 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     uint8 size
   );
 
-  event Minted(address indexed to, uint256 indexed tokenId, string indexed chasis);
+  event Minted(address indexed to, uint256 indexed tokenId, string chasis);
 
   constructor() ERC721Full("FlandesAuto", "FLDS") public {
   }
