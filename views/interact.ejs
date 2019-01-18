@@ -89,7 +89,8 @@
       })
     }
     if (butt.innerText  == 'SEND') {
-      contractAt[methodName](args,function(d,m){
+      console.log('GONA SEND WITH UNPACKED ARGS')
+      contractAt[methodName](...args,function(d,m){
         console.log('SENT the function');
         console.log(m)
         parent.iframeBody.append('<div><hr><pre>'+m+'</pre><hr><div>')
