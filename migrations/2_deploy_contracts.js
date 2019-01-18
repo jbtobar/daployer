@@ -1,7 +1,7 @@
-var Token = artifacts.require("./Token.sol");
+var Nifty = artifacts.require("./Nifty.sol");
 
-var artifactor = require("truffle-artifactor");
+//var artifactor = require("truffle-artifactor");
 
 module.exports = function(deployer) {
-    deployer.deploy(Token, "DAPloyer", "DPLY",18)
+    deployer.deploy(Nifty)
 }
