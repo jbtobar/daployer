@@ -12,7 +12,8 @@ module.exports =  function(app, web3) {
     // })
     app.get('/api/v2/contracts', (req, res) => {
         console.log('GET: /api/v2/contracts')
-        fs.readdir(buildContractsFolder, (err, files) => {
+	var file_list = new Array()
+	fs.readdir(buildContractsFolder, (err, files) => {
             files.forEach(file => {
                 file_list.push(file.split('.')[0])
             });
