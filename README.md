@@ -83,3 +83,4 @@ http://165.227.96.86/rpc
 Due to long confirmation times on Ropsten/Rinkeby, we can use this for testing.
 
 Note: GUI/API is connected to Private Blockchain.
+# toolcat
