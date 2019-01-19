@@ -10,6 +10,15 @@ module.exports =  function(app, web3) {
     //   ]
     //   res.render('reference',{user: "Great User",title:"homepage", goods: routes});
     // })
+    app.get('/api/v2/contracts', (req, res) => {
+        console.log('GET: /api/v2/contracts')
+        fs.readdir(buildContractsFolder, (err, files) => {
+            files.forEach(file => {
+                file_list.push(file.split('.')[0])
+            });
+            res.json({user: "Great User",title:"homepage", goods: file_list});
+        })
+    })
 
     app.get('/api/ui', (req, res) => {
       console.log('GET: /api/ui')
