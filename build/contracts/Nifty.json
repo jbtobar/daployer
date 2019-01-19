@@ -6272,12 +6272,12 @@
         }
       },
       "links": {},
-      "address": "0x6d4F4b10d3EBEa8278054F53D2C3c18Cbae15410",
-      "transactionHash": "0xfaea9e9e6d6b53c6a6ea2e199650827790611c9b47d0b1f21871cd3b5d5c6034"
+      "address": "0x20de0DE412080152b4e7dF701DE0A533f8da2bC7",
+      "transactionHash": "0x1843aa33ac68b2f8fe537344846e8b05e7670e1625353a9f6071281f10bbcb95"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-01-18T13:06:41.760Z",
+  "updatedAt": "2019-01-19T10:49:44.277Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
