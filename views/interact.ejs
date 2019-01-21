@@ -82,7 +82,8 @@
     var contractAt = ctc.at(contractAddress)
     parent.contractAt = contractAt
     if (butt.innerText  == 'CALL') {
-      contractAt[methodName].call(function(d,m){
+      console.log('GONNA CALL WITH UNPACKED ADDRESS')
+      contractAt[methodName].call(...args,function(d,m){
         console.log('called the function');
         console.log(m)
         parent.iframeBody.append('<div><hr><pre>'+m+'</pre><hr><div>')
