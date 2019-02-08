@@ -17,12 +17,21 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     uint8 size;
   }
 
+  /*
+  status 0 - registrado, sin comprador
+  status 1 - comprador asignado
+  status 2 - propiedad transferida con reserva de dominio
+  status 3 - propiedad transferida
+  */
   struct Auto {
-    string chasis;
+    // string chasis;
+    bytes17 chasis;
     string placa;
+    uint8 status;
   }
 
   Auto[] public autos;
+  mapping(bytes17 => uint) public vins;
   mapping(uint => Multihash) private entries;
 
   mapping(address => bool) public admins;
@@ -39,25 +48,28 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     uint8 size
   );
 
-  event Minted(address indexed to, uint256 indexed tokenId, string chasis);
+  event Minted(address indexed to, uint256 indexed tokenId, bytes17 chasis);
 
   constructor() ERC721Full("FlandesAuto", "FLDS") public {
     admins[msg.sender] = true;
   }
 
-  function getGradient( uint _autoId ) public view returns(string memory chasis, string memory placa){
+  function getGradient( uint _autoId ) public view returns(bytes17 memory chasis, string memory placa, uint status){
     Auto memory _auto = autos[_autoId];
 
     chasis = _auto.chasis;
     placa = _auto.placa;
+    status = _auto.status;
   }
 
   /*
    * @WARNING: ownership make sure with onlyAdmin
    */
-  function mintit(string memory _chasis, string memory _placa) public payable  {
-    Auto memory _auto = Auto({ chasis: _chasis, placa: _placa });
+  function mintit(bytes17 memory _chasis, string memory _placa, uint8 _status) public payable  {
+    Auto memory _auto = Auto({ chasis: _chasis, placa: _placa, status: _status });
     uint _autoId = autos.push(_auto) - 1;
+
+    vins[_chasis] = _autoId;
 
     _mint(msg.sender, _autoId);
     emit Minted(msg.sender, _autoId, _chasis);
@@ -74,6 +86,10 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     return _tokensOfOwner(owner);
   }
 
+  // function carByVin(bytes17 memory _chasis) {
+  //
+  // }
+
 
   /**
    * @dev associate a multihash entry with the sender address
@@ -82,7 +98,6 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
    * @param _size length of the digest
    */
   function setEntry(uint _autoId, bytes32 _digest, uint8 _hashFunction, uint8 _size)
-
   public
   {
     require(admins[msg.sender] == true || msg.sender == ownerOf(_autoId));
