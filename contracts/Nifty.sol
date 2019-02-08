@@ -54,7 +54,7 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     admins[msg.sender] = true;
   }
 
-  function getGradient( uint _autoId ) public view returns(bytes17 memory chasis, string memory placa, uint status){
+  function getGradient( uint _autoId ) public view returns(bytes17 chasis, string memory placa, uint status){
     Auto memory _auto = autos[_autoId];
 
     chasis = _auto.chasis;
@@ -65,7 +65,7 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
   /*
    * @WARNING: ownership make sure with onlyAdmin
    */
-  function mintit(bytes17 memory _chasis, string memory _placa, uint8 _status) public payable  {
+  function mintit(bytes17 _chasis, string memory _placa, uint8 _status) public payable  {
     Auto memory _auto = Auto({ chasis: _chasis, placa: _placa, status: _status });
     uint _autoId = autos.push(_auto) - 1;
 

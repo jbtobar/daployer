@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import './Nifty.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol';
 
 contract Factura is IERC721Receiver {
 
@@ -15,7 +16,7 @@ contract Factura is IERC721Receiver {
   address payable admin;
   address public facturador;
 
-  uint public totalPrice;
+  uint public price;
   bool public pagoPorFinanciamiento;
   uint public fechaLimitePagoInicial;
   uint public interes;
@@ -26,9 +27,16 @@ contract Factura is IERC721Receiver {
   uint public months;
   uint public startDate;
 
-  DummyERC20 public uspd;
+  ERC20Mintable public usdp;
   Nifty public nifty;
   address public usdpAddress;
+
+  uint[] public pagos;
+  uint public pagado;
+  bool public success;
+
+  bool public matriculacionPagada;
+
 
   modifier onlyFlandes() {
     require(msg.sender == admin);
@@ -55,16 +63,16 @@ contract Factura is IERC721Receiver {
     interes = _interes;
     pagoInicial = _pagoInicial;
     usdpAddress = _usdpAddress;
-    usdp = DummyERC20(usdpAddress);
+    usdp = ERC20Mintable(usdpAddress);
     nifty = Nifty(_niftyAddress);
   }
 
-  function ponerPagoMatriculacion(uint _pagoMatriculacion) public onlyAdmin {
+  function ponerPagoMatriculacion(uint _pagoMatriculacion) public onlyFlandes {
     require(!matriculacionPagada);
     pagoMatriculacion = _pagoMatriculacion;
   }
 
-  function pagarMatriculacion(uint _pago) public onlyBuyer {
+  function pagarMatriculacion() public onlyBuyer {
     require(msg.sender == buyer);
     require(pagoMatriculacion > 0);
     require(nifty.ownerOf(niftyId) == address(this));
@@ -72,8 +80,6 @@ contract Factura is IERC721Receiver {
     matriculacionPagada = true;
   }
 
-  uint[] public pagos;
-  uint public pagado;
   function hacerPago(uint _pago) public onlyBuyer {
     require(matriculacionPagada);
     require(usdp.transferFrom(facturador,buyer,_pago));
