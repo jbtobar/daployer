@@ -41,7 +41,7 @@
             <input type="radio" name="<%= user.name %>" value="true" checked="checked">True</input>
             <input type="radio" name="<%= user.name %>" value="false">False</input>
           <% } else { %>
-            <input type="<%= i.type %>" name="<%= i.name %>" id="<%= i.name %>"></input>
+            <input type="<%= i.type %>" name="<%= i.name+"_" %>" id="<%= i.name+"_" %>"></input>
           <% } %>
         <% } %>
       <% }) %>
@@ -61,6 +61,7 @@
   function sendTx(butt) {
     console.log(butt)
     parent.butt = butt
+    console.log('newcrest')
     var forma = $(butt.parentElement).serializeArray()
     // forma.find(function(d){if (d.name == 'methodName') {methodName = d.value}})
     // forma.find(function(d){if (d.name == 'contractAddress') {contractAddress = d.value}})
@@ -83,6 +84,8 @@
     parent.contractAt = contractAt
     if (butt.innerText  == 'CALL') {
       console.log('GONNA CALL WITH UNPACKED ADDRESS')
+      console.log('thebwlowisfucked')
+      console.log(args)
       contractAt[methodName].call(...args,function(d,m){
         console.log('called the function');
         console.log(m)
