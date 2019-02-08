@@ -28,6 +28,7 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     bytes17 chasis;
     string placa;
     uint8 status;
+    bytes32 color;
   }
 
   Auto[] public autos;
@@ -48,31 +49,42 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     uint8 size
   );
 
-  event Minted(address indexed to, uint256 indexed tokenId, bytes17 chasis);
+  event Minted(address indexed to, uint256 indexed tokenId, bytes17 chasis, bytes32 color);
 
   constructor() ERC721Full("FlandesAuto", "FLDS") public {
     admins[msg.sender] = true;
   }
 
-  function getGradient( uint _autoId ) public view returns(bytes17 chasis, string memory placa, uint status){
+  function getGradient( uint _autoId ) public view returns(bytes17 chasis, string memory placa, uint status, bytes32 color) {
     Auto memory _auto = autos[_autoId];
 
     chasis = _auto.chasis;
     placa = _auto.placa;
     status = _auto.status;
+    color = _auto.color;
   }
 
   /*
    * @WARNING: ownership make sure with onlyAdmin
    */
-  function mintit(bytes17 _chasis, string memory _placa, uint8 _status) public payable  {
-    Auto memory _auto = Auto({ chasis: _chasis, placa: _placa, status: _status });
+  function mintit(bytes17 _chasis, string memory _placa, uint8 _status, string memory _color) public payable  {
+    bytes32 _colorBytes = stringToBytes32(_color);
+    Auto memory _auto = Auto({ chasis: _chasis, placa: _placa, status: _status, color: _colorBytes });
     uint _autoId = autos.push(_auto) - 1;
 
     vins[_chasis] = _autoId;
 
     _mint(msg.sender, _autoId);
-    emit Minted(msg.sender, _autoId, _chasis);
+    emit Minted(msg.sender, _autoId, _chasis, _colorBytes);
+  }
+  function stringToBytes32(string memory source) public pure returns (bytes32 result)  {
+    bytes memory tempEmptyStringTest = bytes(source);
+    if (tempEmptyStringTest.length == 0) {
+      return 0x0;
+    }
+    assembly {
+      result := mload(add(source, 32))
+    }
   }
 
   /*
@@ -81,7 +93,9 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
   function addPlate(uint _autoId, string memory _placa) public onlyAdmin {
     autos[_autoId].placa = _placa;
   }
-
+  function changeColor(uint _autoId, bytes32 _color) public onlyAdmin {
+    autos[_autoId].color = _color;
+  }
   function tokensOfOwner(address owner) public view returns(uint256[] memory) {
     return _tokensOfOwner(owner);
   }
