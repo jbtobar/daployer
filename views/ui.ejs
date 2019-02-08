@@ -13,8 +13,11 @@
     <button onclick="clearConsole()">Clear Console</button>
     <button onclick="toggleVerbosity(true)">Verbosity On</button>
     <button onclick="toggleVerbosity(false)">Verbosity Off</button>
+    <button onclick="display(true)">Show All</button>
+      <button onclick="display(false)">Show Select</button>
     <hr>
-    DEPLOY
+    <div id="goods" hidden=true>
+      DEPLOY
       <% goods.forEach(function(user){ %>
         <a href="ui/<%= user %>" target="postLeft"><%= user %></a>
       <% })%>
@@ -23,6 +26,18 @@
       <% goods.forEach(function(user){ %>
         <a href="ui/interact/<%= user %>" target="postLeft"><%= user %></a>
       <% })%>
+    </div>
+    <div id="hoods">
+      DEPLOY
+      <% hoods.forEach(function(user){ %>
+        <a href="ui/<%= user %>" target="postLeft"><%= user %></a>
+      <% })%>
+      <hr>
+      INTERACT
+      <% hoods.forEach(function(user){ %>
+        <a href="ui/interact/<%= user %>" target="postLeft"><%= user %></a>
+      <% })%>
+    </div>
     <div id="mainDiv">
       <table>
         <tr>
@@ -38,9 +53,20 @@
   </body>
   <script>
   var goods =<%-JSON.stringify(goods)%>
+  var hoods =<%-JSON.stringify(hoods)%>
   window.verbosity = false;
   window.iframeBody  = $("#postRight").contents().find("body")
 
+  function display(what) {
+    if (what) {
+      $('#hoods').hide()
+      $('#goods').show()
+    } else {
+      $('#goods').hide()
+      $('#hoods').show()
+    }
+
+  }
   function clearConsole() {
     iframeBody.html('')
   }

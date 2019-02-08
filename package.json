@@ -10,7 +10,7 @@
     "test": "mocha",
     "dev": "nodemon server.js",
     "live": "nodemon server.js live",
-    "compile":"truffle compile"
+    "compile": "truffle compile"
   },
   "author": "JBT jbtobar.io@gmail.com (http://juanbernardotobar.me)",
   "license": "MIT",

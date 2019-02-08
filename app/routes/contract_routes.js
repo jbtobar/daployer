@@ -1,6 +1,6 @@
 const fs = require('fs');
 buildContractsFolder = './build/contracts/'
-
+var chosen_list = ['Ownable']
 module.exports =  function(app, web3) {
 
     // app.get('/api', (req, res) => {
@@ -13,11 +13,13 @@ module.exports =  function(app, web3) {
     app.get('/api/v2/contracts', (req, res) => {
         console.log('GET: /api/v2/contracts')
 	var file_list = new Array()
+  // var chosen_list = ['Ownable']
 	fs.readdir(buildContractsFolder, (err, files) => {
             files.forEach(file => {
                 file_list.push(file.split('.')[0])
             });
-            res.json({user: "Great User",title:"homepage", goods: file_list});
+
+            res.json({user: "Great User",title:"homepage", goods: file_list, hoods:chosen_list});
         })
     })
     app.get('/api/v2/abi/:contractName', (req, res) => {
@@ -40,7 +42,7 @@ module.exports =  function(app, web3) {
         files.forEach(file => {
           file_list.push(file.split('.')[0])
         });
-        res.render('ui',{user: "Great User",title:"homepage", goods: file_list});
+        res.render('ui',{user: "Great User",title:"homepage", goods: file_list,hoods:chosen_list});
       })
     })
 
