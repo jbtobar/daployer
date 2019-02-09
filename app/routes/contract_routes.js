@@ -58,6 +58,12 @@ module.exports =  function(app, web3) {
         var contractName = req.params.contractName
         var bld = require('../../build/contracts/'+contractName+'.json')
         bld.abi.forEach((d) => {if ( d.type == 'constructor' ) { ctr = d }})
+        // var ctr = {
+        //   inputs:[]
+        // }
+        // for (var i = 0 ; i < bld.abi.length ; i ++) {
+        //   if ( bld.abi[i].type == 'constructor' ) { ctr = bld.abi[i] }
+        // }
         console.log(ctr.inputs)
         buser = ctr.inputs
         res.status(200).json({ contractName: contractName, goods: buser, contractBuild: bld });

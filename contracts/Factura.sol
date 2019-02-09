@@ -13,7 +13,7 @@ contract Factura is IERC721Receiver {
   bytes17 public vin;
 
   address public buyer;
-  address payable admin;
+  address public admin;
   address public facturador;
 
   uint public price;
@@ -51,9 +51,9 @@ contract Factura is IERC721Receiver {
     _;
   }
 
-  constructor(address _niftyAddress, uint _niftyId ,address _buyer, uint _price, uint _months, uint _interes, uint _pagoInicial,address _usdpAddress) public {
-    admin = msg.sender;
-    facturador = msg.sender;
+  constructor(address _admin, address _facturador,address _niftyAddress, uint _niftyId ,address _buyer, uint _price, uint _months, uint _interes, uint _pagoInicial,address _usdpAddress) public {
+    admin = _admin;
+    facturador = _facturador;
     niftyAddress = _niftyAddress;
     niftyId = _niftyId;
     buyer = _buyer;
