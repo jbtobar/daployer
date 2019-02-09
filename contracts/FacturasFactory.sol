@@ -5,11 +5,11 @@ import './Factura.sol';
 contract FacturasFactory {
 
   struct FacturaDir {
-    address _factura;
-    address _admin;
-    address _buyer;
-    uint _niftyId;
-    uint _creationDate;
+    address factura;
+    address admin;
+    address buyer;
+    uint niftyId;
+    uint creationDate;
   }
 
   bool public v02 = true;
