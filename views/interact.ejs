@@ -35,11 +35,11 @@
         <p>"<%= i.type %>"</p>
         <label for="<%= i.name %>">"<%= i.name %>"</label>
         <% if (i.type.includes('int')){ %>
-          <input type="number" name="<%= i.name %>" id="<%= i.name %>"></input>
+          <input type="number" name="<%= i.name+"_" %>" id="<%= i.name+"_" %>"></input>
         <% } else { %>
           <% if (i.type == 'bool') { %>
-            <input type="radio" name="<%= user.name %>" value="true" checked="checked">True</input>
-            <input type="radio" name="<%= user.name %>" value="false">False</input>
+            <input type="radio" name="<%= user.name+"_" %>" value="true" checked="checked">True</input>
+            <input type="radio" name="<%= user.name+"_" %>" value="false">False</input>
           <% } else { %>
             <input type="<%= i.type %>" name="<%= i.name+"_" %>" id="<%= i.name+"_" %>"></input>
           <% } %>
