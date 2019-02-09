@@ -29,8 +29,9 @@ contract FacturasFactory {
     Factura factura = new Factura(_admin, _facturador, _niftyAddress,  _niftyId , _buyer,  _price,  _months,  _interes,  _pagoInicial, _usdpAddress);
     emit FacturaEmitida(address(factura), _buyer, _niftyId);
     facturas.push(address(factura));
-    facturasDir.push(address(factura),_admin,_buyer,_niftyId,now);
+    facturasDir.push(FacturaDir(address(factura),_admin,_buyer,_niftyId,now));
     facturasLength+=1;
   }
+
 
 }
