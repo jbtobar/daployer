@@ -12,7 +12,7 @@ contract FacturasFactory {
     uint creationDate;
   }
 
-  bool public v02 = true;
+  bool public v03 = true;
 
   address[] public facturas;
   FacturaDir[] public facturasDir;

@@ -6,7 +6,7 @@ import 'openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol';
 
 contract Factura is IERC721Receiver {
 
-  bool public v02 = true;
+  bool public v03 = true;
 
   address public niftyAddress;
   uint public niftyId;
@@ -76,7 +76,7 @@ contract Factura is IERC721Receiver {
     require(msg.sender == buyer);
     require(pagoMatriculacion > 0);
     require(nifty.ownerOf(niftyId) == address(this));
-    require(usdp.transferFrom(facturador,buyer,pagoMatriculacion));
+    require(usdp.transferFrom(buyer,facturador,pagoMatriculacion));
     matriculacionPagada = true;
   }
 
