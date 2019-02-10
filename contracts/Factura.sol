@@ -82,7 +82,7 @@ contract Factura is IERC721Receiver {
 
   function hacerPago(uint _pago) public onlyBuyer {
     require(matriculacionPagada);
-    require(usdp.transferFrom(facturador,buyer,_pago));
+    require(usdp.transferFrom(buyer,facturador,_pago));
     pagos.push(_pago);
     pagado+=_pago;
   }
@@ -112,13 +112,14 @@ contract Factura is IERC721Receiver {
   //   nifty.safeTransferFrom(address(this),admin,niftyId);
   // }
   //
-  // function safeSwitch() public onlyFlandes {
-  //   Nifty nifty = Nifty(niftyAddress);
-  //   // require(nifty.safeTransferFrom(address(this),admin,niftyId));
-  //   nifty.safeTransferFrom(address(this),admin,niftyId);
-  //   // require(admin.transfer(address(this).balance));
-  //   admin.transfer(address(this).balance);
-  // }
+  function safeSwitch() public onlyFlandes {
+    require(!matriculacionPagada);
+    // Nifty nifty = Nifty(niftyAddress);
+    // require(nifty.safeTransferFrom(address(this),admin,niftyId));
+    nifty.safeTransferFrom(address(this),admin,niftyId);
+    // require(admin.transfer(address(this).balance));
+    // admin.transfer(address(this).balance);
+  }
   //
   // function () payable external {}
 
