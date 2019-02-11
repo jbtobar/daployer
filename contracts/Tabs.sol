@@ -4,12 +4,20 @@ contract Tabs {
 
   address public admin;
 
+  struct SegLoc {
+    uint gradientId;
+    uint entryID;
+  }
+  uint public segLen;
+  SegLoc[] public seguros;
+
   struct Multihash {
     bytes32 digest;
     uint8 hashFunction;
     uint8 size;
   }
 
+  uint public entryLen;
   mapping(uint => Multihash[]) private entries;
   mapping(uint => bytes32[]) public entryKeys;
   mapping(uint => mapping(uint => address[])) public signatures;
@@ -27,7 +35,7 @@ contract Tabs {
     admin = msg.sender;
   }
 
-  function setEntry(uint _gradientId, bytes32 _entryKey ,bytes32 _digest, uint8 _hashFunction, uint8 _size)
+  function setEntry(uint _gradientId, bytes32 _entryKey, bool _esSeguro ,bytes32 _digest, uint8 _hashFunction, uint8 _size)
   public
   {
     Multihash memory entry = Multihash(_digest, _hashFunction, _size);
@@ -35,7 +43,12 @@ contract Tabs {
     signatures[_gradientId][entryID].push(msg.sender);
 
     entryKeys[_gradientId].push(_entryKey);
+    entryLen+=1;
 
+    if (_esSeguro) {
+      seguros.push(SegLoc(_gradientId, _entryId));
+      segLen+=1;
+    }
 
     emit EntrySet(
       _gradientId,
