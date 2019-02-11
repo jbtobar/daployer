@@ -46,7 +46,7 @@ contract Tabs {
     entryLen+=1;
 
     if (_esSeguro) {
-      seguros.push(SegLoc(_gradientId, _entryId));
+      seguros.push(SegLoc(_gradientId, entryId));
       segLen+=1;
     }
 
