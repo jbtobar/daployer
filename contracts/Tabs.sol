@@ -9,27 +9,35 @@ contract Tabs {
   }
 
   mapping(uint => Multihash[]) private entries;
-
+  mapping(uint => bytes32[]) public entryKeys;
   mapping(uint => mapping(uint => address[])) public signatures;
 
   event EntrySet (
     uint indexed key,
     bytes32 digest,
     uint8 hashFunction,
-    uint8 size
+    uint8 size,
+    bytes32 entryKey,
+    address sender
   );
 
-  function setEntry(uint _gradientId, bytes32 _digest, uint8 _hashFunction, uint8 _size)
+  function setEntry(uint _gradientId, bytes32 _entryKey ,bytes32 _digest, uint8 _hashFunction, uint8 _size)
   public
   {
     Multihash memory entry = Multihash(_digest, _hashFunction, _size);
     uint entryID = entries[_gradientId].push(entry);
     signatures[_gradientId][entryID].push(msg.sender);
+
+    entryKeys[_gradientId].push(_entryKey);
+
+
     emit EntrySet(
       _gradientId,
       _digest,
       _hashFunction,
-      _size
+      _size,
+      _entryKey,
+      msg.sender
     );
   }
 
