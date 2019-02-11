@@ -12,12 +12,16 @@ contract FacturasFactory {
     uint creationDate;
   }
 
-  bool public v03 = true;
+  bool public v04 = true;
 
   address[] public facturas;
   FacturaDir[] public facturasDir;
   address public admin;
   uint public facturasLength;
+
+  mapping(uint => address[]) public facturasById;
+  mapping(address => address[]) public facturasByBuyer;
+
   event FacturaEmitida(address indexed facturaAddress, address indexed buyer, uint indexed tokenId);
 
   constructor() public {
@@ -31,6 +35,8 @@ contract FacturasFactory {
     facturas.push(address(factura));
     facturasDir.push(FacturaDir(address(factura),_admin,_buyer,_niftyId,now));
     facturasLength+=1;
+    facturasById[_niftyId].push(address(factura));
+    facturasByBuyer[_buyer].push(address(factura));
   }
 
 
