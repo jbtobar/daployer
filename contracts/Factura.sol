@@ -87,7 +87,8 @@ contract Factura is IERC721Receiver {
     pagado+=_pago;
   }
   function finalizar() public onlyParties {
-    nifty.safeTransferFrom(address(this),buyer,niftyId);
+    // nifty.safeTransferFrom(address(this),buyer,niftyId);
+    nifty.transferFromEscrowToOwner(address(this),buyer,niftyId);
     success = true;
   }
 

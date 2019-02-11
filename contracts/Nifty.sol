@@ -19,9 +19,8 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
 
   /*
   status 0 - registrado, sin comprador
-  status 1 - comprador asignado
-  status 2 - propiedad transferida con reserva de dominio
-  status 3 - propiedad transferida
+  status 1 - propiedad en escrow - sin placa
+  status 2 - propiedad de comprador
   */
   struct Auto {
     // string chasis;
@@ -77,6 +76,7 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
     _mint(msg.sender, _autoId);
     emit Minted(msg.sender, _autoId, _chasis, _colorBytes);
   }
+
   function stringToBytes32(string memory source) public pure returns (bytes32 result)  {
     bytes memory tempEmptyStringTest = bytes(source);
     if (tempEmptyStringTest.length == 0) {
@@ -90,14 +90,24 @@ contract Nifty is ERC721Full, ERC721Mintable,Ownable {
   /*
    * @WARNING: ownership make sure with onlyOwner
    */
-  function addPlate(uint _autoId, string memory _placa) public onlyAdmin {
-    autos[_autoId].placa = _placa;
-  }
+
   function changeColor(uint _autoId, bytes32 _color) public onlyAdmin {
     autos[_autoId].color = _color;
   }
   function tokensOfOwner(address owner) public view returns(uint256[] memory) {
     return _tokensOfOwner(owner);
+  }
+
+  function transferToEscrow( address _to, uint256 _tokenId) public {
+    safeTransferFrom(msg.sender, _to, _tokenId);
+    autos[_tokenId].status = 1;
+  }
+  function addPlate(uint _autoId, string memory _placa) public onlyAdmin {
+    autos[_autoId].placa = _placa;
+  }
+  function transferFromEscrowToOwner(address _from, address _to, uint256 _tokenId) public {
+    safeTransferFrom(_from, _to, _tokenId);
+    autos[_tokenId].status = 2;
   }
 
   // function carByVin(bytes17 memory _chasis) {
