@@ -7,7 +7,7 @@ contract Tabs {
     uint8 hashFunction;
     uint8 size;
   }
-  mapping(uint => Matricula) private matriculas;
+
   mapping(uint => Multihash[]) private entries;
 
   mapping(uint => mapping(uint => address[])) public signatures;
