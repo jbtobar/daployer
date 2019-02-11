@@ -34,7 +34,7 @@ contract Tabs {
   }
 
   function signEntry(uint _gradientId, uint _entryId) public {
-    signatures[_gradientId][entryID].push(msg.sender);
+    signatures[_gradientId][_entryId].push(msg.sender);
   }
 
   function getEntry(uint _gradientId, uint _entryId)
