@@ -2,6 +2,8 @@ pragma solidity ^0.5.0;
 
 contract Tabs {
 
+  address public admin;
+
   struct Multihash {
     bytes32 digest;
     uint8 hashFunction;
@@ -20,6 +22,10 @@ contract Tabs {
     bytes32 entryKey,
     address sender
   );
+
+  constructor() public {
+    admin = msg.sender;
+  }
 
   function setEntry(uint _gradientId, bytes32 _entryKey ,bytes32 _digest, uint8 _hashFunction, uint8 _size)
   public
