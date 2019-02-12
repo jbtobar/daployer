@@ -4,9 +4,10 @@ pragma solidity ^0.5.0;
 import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol';
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
-
 //https://github.com/saurfang/ipfs-multihash-on-solidity/blob/master/contracts/IPFSStorage.sol
-
+/*
+ - it maps
+*/
 contract Sudaka is ERC721Full, ERC721Mintable, Ownable {
 
   struct Multihash {
@@ -30,7 +31,6 @@ contract Sudaka is ERC721Full, ERC721Mintable, Ownable {
   function mintMe(uint8 _cedula) public {
     _mint(msg.sender, _cedula);
   }
-
 
   function setEntry(uint _cedula, bytes32 _entryKey, bytes32 _digest, uint8 _hashFunction, uint8 _size)
   public
