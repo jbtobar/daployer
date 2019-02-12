@@ -6,7 +6,9 @@ import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol';
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
 //https://github.com/saurfang/ipfs-multihash-on-solidity/blob/master/contracts/IPFSStorage.sol
-
+/*
+@TODO: be able to remove admins
+*/
 contract Nifty is ERC721Full, ERC721Mintable,Ownable {
 
   bool public v02 = true;
