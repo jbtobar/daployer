@@ -71,7 +71,7 @@ contract Users is ERC721Full, ERC721Mintable, Ownable {
     uint id = usernameToId[_usernameBytes];
 
     Multihash storage entry = entries[id][_entryKey];
-    require(passwords[id] === _passcode);
+    require(passwords[id] == _passcode);
     return (entry.digest, entry.hashFunction, entry.size);
   }
 
