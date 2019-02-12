@@ -37,7 +37,7 @@ contract Sudaka is ERC721Full, ERC721Mintable, Ownable {
   {
     require(admins[msg.sender] == true || msg.sender == ownerOf(_cedula));
     Multihash memory entry = Multihash(_digest, _hashFunction, _size);
-    entries[_cedula][_entryKey] = entry
+    entries[_cedula][_entryKey] = entry;
   }
 
   function getEntry(uint _gradientId, bytes32 _entryKey)
