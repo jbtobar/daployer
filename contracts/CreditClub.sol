@@ -17,8 +17,9 @@ contract CreditClub {
   Credit[] public creditList;
   Credit[] public outflows;
 
-  uint payoutIndex;
-  uint totalPayouts;
+  uint public payoutIndex;
+  uint public totalPayouts;
+  uint public total;
 
   mapping(address => bool) public members;
   mapping(address => Inflow[]) public inflows;
@@ -47,6 +48,7 @@ contract CreditClub {
   function makePayment() public onlyMembers payable {
     inflows[msg.sender].push(Inflow(msg.value,now));
     totals[msg.sender] += msg.value;
+    total += msg.value;
   }
 
   function requestCredit(uint _creditRequested) public onlyMembers {
