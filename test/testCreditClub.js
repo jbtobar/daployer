@@ -9,20 +9,21 @@ const Users = artifacts.require("Users");
 
 contract("Users", accounts => {
 
-  var user = accounts[0]
+  var user1 = accounts[0]
+  var user2 = accounts[1]
+  var user3 = accounts[2]
+  var user4 = accounts[3]
+  var user5 = accounts[4]
+  var user6 = accounts[5]
+  var user7 = accounts[6]
+  var user8 = accounts[7]
+  var user9 = accounts[8]
+  var user10 = accounts[9]
 
   it("User makes a token with a username", async () => {});
 
   it("Another user cannot make a token with that username", async () => {});
 
-
-
-
-  it("Should make first account an owner", async () => {
-    instance = await GradientToken.deployed();
-    owner = await instance.owner();
-    assert.equal(owner, flandes);
-  });
 
 });
 
