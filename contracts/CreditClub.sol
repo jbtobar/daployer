@@ -9,6 +9,10 @@ contract CreditClub {
     uint amount;
     bool paidOut;
   }
+  struct Inflow {
+    uint amount;
+    uint date;
+  }
 
   Credit[] public creditList;
   Credit[] public outflows;
@@ -17,7 +21,7 @@ contract CreditClub {
   uint totalPayouts;
 
   mapping(address => bool) public members;
-  mapping(address => uint[]) public inflows;
+  mapping(address => Inflow[]) public inflows;
   mapping(address => uint) public totals;
 
   uint public eligibilityFloor = 300;
@@ -41,7 +45,7 @@ contract CreditClub {
   }
 
   function makePayment() public onlyMembers payable {
-    inflows[msg.sender].push(msg.value);
+    inflows[msg.sender].push(Inflow(msg.value,now));
     totals[msg.sender] += msg.value;
   }
 
