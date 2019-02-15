@@ -63,6 +63,7 @@ contract CreditClub {
 
     creditList[payoutIndex].paidOut = true;
     totalPayouts += amount;
+    payoutIndex += 1;
     outflows.push(Credit(beneficiary,amount,true));
   }
 
