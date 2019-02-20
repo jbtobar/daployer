@@ -31,7 +31,7 @@ contract Signer is ERC721Full, ERC721Mintable,Ownable {
   // event Minted(address indexed to, uint256 indexed tokenId, bytes17 chasis, bytes32 color);
 
   constructor() ERC721Full("FlandesAuto", "FLDS") public {
-    admins[msg.sender] = true;
+    
   }
 
   function mintit( bytes32 _digest, uint8 _hashFunction, uint8 _size) public payable  {
