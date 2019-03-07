@@ -11,7 +11,7 @@ import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 */
 contract Quber is ERC721Full, ERC721Mintable, Ownable {
 
-  bool public v04 = true;
+  bool public v05 = true;
 
   struct Multihash {
     bytes32 digest;
@@ -19,6 +19,7 @@ contract Quber is ERC721Full, ERC721Mintable, Ownable {
     uint8 size;
   }
   Multihash[] public entries;
+  mapping(bytes32 => bool) public digestChecker;
 
   event EntrySet (
     uint indexed key,
@@ -34,7 +35,7 @@ contract Quber is ERC721Full, ERC721Mintable, Ownable {
   }
 
   function mintit( bytes32 _digest, uint8 _hashFunction, uint8 _size) public payable  {
-    // bytes32 _colorBytes = stringToBytes32(_color);
+    require(digestChecker[_digest] != true);
     Multihash memory entry = Multihash(_digest, _hashFunction, _size);
 
     uint _contractId = entries.push(entry) - 1;
@@ -46,10 +47,11 @@ contract Quber is ERC721Full, ERC721Mintable, Ownable {
       _hashFunction,
       _size
     );
+    digestChecker[_digest] = true;
     // emit Minted(msg.sender, _contractId, _chasis, _colorBytes);
   }
   function qubeIt(address _to, bytes32 _digest, uint8 _hashFunction, uint8 _size) public payable onlyMinter {
-
+    require(digestChecker[_digest] != true);
     Multihash memory entry = Multihash(_digest, _hashFunction, _size);
 
     uint _qubeId = entries.push(entry) - 1;
@@ -61,6 +63,7 @@ contract Quber is ERC721Full, ERC721Mintable, Ownable {
       _hashFunction,
       _size
     );
+    digestChecker[_digest] = true;
   }
 
   function getEntry(uint _contractId)
