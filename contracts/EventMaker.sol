@@ -17,22 +17,25 @@ contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
   uint256 public ticketsSold = 0;
 
   constructor(
-      string _name,
-      string _symbol,
+      string memory _name,
+      string memory _symbol,
       uint256 _numTickets,
       uint256 _ticketPrice
     )
     ERC721Full(_name, _symbol)
     public
-    {
-      numTickets = _numTickets;
-      ticketPrice = _ticketPrice;
-      USDP = ERC20(0x965f231c071254a6745e05314f34f832691feebf)
-    }
+  {
+    numTickets = _numTickets;
+    ticketPrice = _ticketPrice;
+    USDP = ERC20(0x965f231C071254A6745E05314f34F832691feeBF);
+  }
 
-  function buyTicket() public {
-    require(USDP.transfeFrom(msg.sender,address(this),ticketPrice));
-    uint _ticketNumber = ticketsSold+1
+
+  function buyTicket()
+    public
+  {
+    require(USDP.transferFrom(msg.sender,address(this),ticketPrice));
+    uint _ticketNumber = ticketsSold+1;
     _mint(msg.sender, _ticketNumber);
     ticketsSold+=1;
   }
