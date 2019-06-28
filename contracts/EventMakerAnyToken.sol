@@ -7,7 +7,7 @@ import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol';
 
 
-contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
+contract EventMakerAnyToken is ERC721Full, ERC721Mintable, Ownable {
 
   bool public v06 = true;
 
