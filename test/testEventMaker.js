@@ -5,18 +5,13 @@
 // getMultihashFromContractResponse = multihash.getMultihashFromContractResponse
 
 const EventMaker = artifacts.require("EventMaker");
-const ERC20 = artifacts.require("ERC20");
+const ERC20 = artifacts.require('DUMBO')
+// const ERC20 = artifacts.require('openzeppelin-solidity/contracts/token/ERC20/ERC20.sol');
+// import ;
 
-const params = {
-  _name:'TestConcert',
-  _symbol:'TCTX',
-  _numTickets:100,
-  _ticketPrice:20,
-  _tokenAddress:0x965f231C071254A6745E05314f34F832691feeBF
-}
-const args = Object.values(params)
 
-contract("fdfd", accounts => {
+
+contract("EventMaker", accounts => {
 
   var user1 = accounts[0]
   var user2 = accounts[1]
@@ -29,20 +24,55 @@ contract("fdfd", accounts => {
   var user9 = accounts[8]
   var user10 = accounts[9]
 
-  EventMaker = await EventMaker.new(...args,{from:user1})
-  ERC20 = await ERC20.new('USDPegger','USDP',18,12,{from:user2})
+  console.log('pa lalalalffffff')
 
 
 
+
+
+  let usdp,concert,balance
   it("mint and balance", async () => {
-    await ERC20.mint(10000)
-    const balance = await ERC20.balanceOf(user2)
-    console.log(balance)
+    // ERC20 = await ERC20.new('USDPegger','USDP',18,12,{from:user2})
+    usdp = await ERC20.new({from:user2})
+    await usdp.mint(user2,10000,{from:user2})
+    balance = await usdp.balanceOf(user2)
+    console.log(balance.words[0])
+  })
+  it("deploys event maker", async () => {
+    const params = {
+      _name:'TestConcert',
+      _symbol:'TCTX',
+      _numTickets:100,
+      _ticketPrice:20,
+      _tokenAddress:usdp.address
+    }
+    const args = Object.values(params)
+    concert = await EventMaker.new(...args,{from:user1})
+
+  })
+  it("approved", async () => {
+    await usdp.approve(concert.address,50,{from:user2})
+    // console.log(balance.words[0])
+  })
+  it("has allowance", async () => {
+    balance = await usdp.allowance(user2,concert.address)
+    console.log(balance.words[0])
   })
 
-  it("creates car token", async () => {
-    await EventMaker.buyTicket()
-
+  // it("transfers", async () => {
+  //   await usdp.transfer(concert.address,3,{from:user2})
+  //   balance = await usdp.balanceOf(concert.address)
+  //   console.log(balance.words[0])
+  // })
+  //
+  // it("approved", async () => {
+  //   await usdp.approve(user1,50,{from:user2})
+  //   await usdp.transferFrom(user2,user1,50,{from:user1})
+  //   balance = await usdp.balanceOf(user1)
+  //   console.log(balance.words[0])
+  // })
+  it("buys ticket", async () => {
+    await concert.buyTicket({from:user2})
   })
 
 
