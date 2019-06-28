@@ -39,6 +39,11 @@ contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
     USDP = ERC20(0x965f231C071254A6745E05314f34F832691feeBF);
   }
 
+  function redeemFunds() public onlyOwner {
+    uint256 _balance = USDP.balanceOf(address(this));
+    require(USDP.transfer(owner(),_balance));
+  }
+
 
   function buyTicket()
     public
