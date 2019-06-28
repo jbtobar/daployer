@@ -29,15 +29,14 @@ contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
       string memory _name,
       string memory _symbol,
       uint256 _numTickets,
-      uint256 _ticketPrice,
-      address _address
+      uint256 _ticketPrice
     )
     ERC721Full(_name, _symbol)
     public
   {
     numTickets = _numTickets;
     ticketPrice = _ticketPrice;
-    USDP = ERC20(_address);
+    USDP = ERC20(0x965f231C071254A6745E05314f34F832691feeBF);
   }
 
 
@@ -46,10 +45,11 @@ contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
     returns(bool)
   {
     // USDP.transferFrom(msg.sender,address(this),0);
+    require(ticketsSold<numTickets);
     require(USDP.allowance(address(msg.sender),address(this)) > ticketPrice);
     require(USDP.balanceOf(msg.sender) > ticketPrice);
-    // require(USDP.transferFrom(msg.sender,address(this),ticketPrice));
-    USDP.transferFrom(msg.sender,address(this),ticketPrice);
+    require(USDP.transferFrom(msg.sender,address(this),ticketPrice));
+    // USDP.transferFrom(msg.sender,address(this),ticketPrice);
     uint _ticketNumber = ticketsSold+1;
     _mint(msg.sender, _ticketNumber);
     ticketsSold+=1;
