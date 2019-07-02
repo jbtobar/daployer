@@ -4,26 +4,18 @@ import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol';
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
-import 'openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol';
-
-contract DUMBO is ERC20Mintable {
-  constructor()
-    ERC20Mintable()
-    public
-    {
-
-    }
-}
+import './TheERC20Token.sol';
 
 contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
 
-  bool public v06 = true;
+  bool public v09 = true;
 
-  ERC20 USDP;
+  TheERC20Token USDP;
 
   uint256 public numTickets;
   uint256 public ticketPrice;
   uint256 public ticketsSold = 0;
+  address public tokenAddress;
 
   constructor(
       string memory _name,
@@ -36,12 +28,14 @@ contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
   {
     numTickets = _numTickets;
     ticketPrice = _ticketPrice;
-    USDP = ERC20(0x965f231C071254A6745E05314f34F832691feeBF);
+    USDP = TheERC20Token(0x965f231C071254A6745E05314f34F832691feeBF);
+    tokenAddress = 0x965f231C071254A6745E05314f34F832691feeBF;
   }
 
   function redeemFunds() public onlyOwner {
     uint256 _balance = USDP.balanceOf(address(this));
     require(USDP.transfer(owner(),_balance));
+    // USDP.transfer(owner(),_balance);
   }
 
 
@@ -59,6 +53,16 @@ contract EventMaker is ERC721Full, ERC721Mintable, Ownable {
     _mint(msg.sender, _ticketNumber);
     ticketsSold+=1;
     return true;
+  }
+
+  function mintTicket()
+    public
+    onlyOwner
+  {
+    require(ticketsSold<numTickets);
+    uint _ticketNumber = ticketsSold+1;
+    _mint(msg.sender, _ticketNumber);
+    ticketsSold+=1;
   }
 
 }
