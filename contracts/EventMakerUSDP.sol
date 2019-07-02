@@ -34,8 +34,8 @@ contract Eventer is ERC721Full, ERC721Mintable, Ownable {
 
   function redeemFunds() public onlyOwner {
     uint256 _balance = USDP.balanceOf(address(this));
-    // require(USDP.transfer(owner(),_balance));
-    USDP.transfer(owner(),_balance);
+    require(USDP.transfer(owner(),_balance));
+    // USDP.transfer(owner(),_balance);
   }
 
 
