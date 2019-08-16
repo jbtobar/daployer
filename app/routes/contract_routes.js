@@ -26,13 +26,13 @@ module.exports =  function(app, web3) {
       var contractName = req.params.contractName
       var bld = require('../../build/contracts/'+contractName+'.json')
       res.setHeader('Content-Type', 'application/json')
-      res.json({user: "Great User",title:"abi", abi: bld.abi})
+      res.json({user: "Great User",title:"abi", abi: bld.abi,contractName })
     })
     app.get('/api/v2/full/:contractName', (req, res) => {
       var contractName = req.params.contractName
       var bld = require('../../build/contracts/'+contractName+'.json')
       res.setHeader('Content-Type', 'application/json')
-      res.json({user: "Great User",title:"full", abi: bld.abi,bytecode:bld.bytecode})
+      res.json({user: "Great User",title:"full", contractName, abi: bld.abi,bytecode:bld.bytecode})
     })
 
     app.get('/api/ui', (req, res) => {
