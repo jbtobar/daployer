@@ -41,7 +41,7 @@ contract PayWall is ERC721Full, ERC721Mintable, Ownable{
     return true;
   }
 
-  function hasAccess(uint256 _id, address _address) public returns (bool) {
+  function hasAccess(uint256 _id, address _address) public view returns (bool) {
     return readers[_id][_address];
   }
 
