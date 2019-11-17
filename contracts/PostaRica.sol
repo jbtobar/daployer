@@ -80,12 +80,12 @@ contract PayWall is ERC721Full, ERC721Mintable, Ownable {
   function myGains(address _creator) public view return (uint256) {
     return gains[_creator];
   }
-  function withdrawGains() public view return (bool) {
+  function withdrawGains() public return (bool) {
     uint256 gains = gains[msg.sender];
     require(USDP.transferFrom(address(this),msg.sender,gains));
     return true;
   }
-  function withdrawGainsAdmin(address _creator) public view return (bool) {
+  function withdrawGainsAdmin(address _creator) public return (bool) {
     require(msg.sender == admin);
     uint256 gains = gains[_creator];
     require(USDP.transferFrom(address(this),_creator,gains));
