@@ -81,8 +81,8 @@ contract PostaRica is ERC721Full, ERC721Mintable, Ownable {
     return gains[_creator];
   }
   function withdrawGains() public returns (bool) {
-    uint256 gains = gains[msg.sender];
-    require(USDP.transferFrom(address(this),msg.sender,gains));
+    uint256 _gains = gains[msg.sender];
+    require(USDP.transferFrom(address(this),msg.sender,_gains));
     return true;
   }
   function withdrawGainsAdmin(address _creator) public returns (bool) {
