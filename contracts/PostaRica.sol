@@ -10,7 +10,7 @@ import './TheERC20Token.sol';
 /*
 @TODO: be able to remove admins
 */
-contract PayWall is ERC721Full, ERC721Mintable, Ownable {
+contract PostaRica is ERC721Full, ERC721Mintable, Ownable {
 
   TheERC20Token USDP;
 
