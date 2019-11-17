@@ -15,22 +15,29 @@ contract PayWall is ERC721Full, ERC721Mintable, Ownable {
   TheERC20Token USDP;
 
   uint256 public items = 0;
+  address public admin;
 
   mapping(uint256 => mapping(address => bool)) public readers;
   mapping(uint256 => uint256) public prices;
   mapping(uint256 => address) public publishers;
+  mapping(uint256 => bytes12) public postids;
+  mapping(bytes12 => uint256) public idsposts;
+  mapping(address => uint256) public gains;
 
   constructor(address _addressT)
   public
     ERC721Full('FLOWSPOT', 'FLOW')
   {
     USDP = TheERC20Token(_addressT);
+    admin = msg.sender;
   }
 
-  function createPost(bytes12 _id, address _creator, uint256 _price) public returns(uint256) {
+  function createPost(bytes12 _postid, address _creator, uint256 _price) public returns(uint256) {
     uint _postNumber = items+1;
     prices[_postNumber] = _price;
     publishers[_postNumber] = _creator;
+    postids[_postNumber] = _postid;
+    idsposts[_postid] = _postNumber;
     _mint(_creator, _postNumber);
     items+=1;
     return _postNumber;
@@ -43,6 +50,12 @@ contract PayWall is ERC721Full, ERC721Mintable, Ownable {
 
   function hasAccess(uint256 _id, address _address) public view returns (bool) {
     return readers[_id][_address];
+  }
+  function postidFromToken(uint256 _id) public view returns (bytes12) {
+    return postids[_id];
+  }
+  function tokenFromPostid(bytes12 _postid) public view returns (uint256) {
+    return idsposts[_postid];
   }
 
 
@@ -59,7 +72,23 @@ contract PayWall is ERC721Full, ERC721Mintable, Ownable {
     require(USDP.allowance(address(msg.sender),address(this)) >= ticketPrice);
     require(USDP.balanceOf(msg.sender) >= ticketPrice);
     require(USDP.transferFrom(msg.sender,ticketPublisher,ticketPrice));
+    gains[ticketPublisher] += ticketPrice;
     readers[_id][msg.sender] = true;
+    return true;
+  }
+
+  function myGains(address _creator) public view return (uint256) {
+    return gains[_creator];
+  }
+  function withdrawGains() public view return (bool) {
+    uint256 gains = gains[msg.sender];
+    require(USDP.transferFrom(address(this),msg.sender,gains));
+    return true;
+  }
+  function withdrawGainsAdmin(address _creator) public view return (bool) {
+    require(msg.sender == admin);
+    uint256 gains = gains[_creator];
+    require(USDP.transferFrom(address(this),_creator,gains));
     return true;
   }
 }
